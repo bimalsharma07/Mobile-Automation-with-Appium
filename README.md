@@ -2,6 +2,9 @@
 
 This repository demonstrates end-to-end automation of the SwagLabs mobile app (APK) using Appium. It provides a practical example of how to set up, develop, and execute automated functional tests for a real-world Android application. The tests are written in JavaScript and leverage modern automation tools and frameworks for mobile app testing.
 
+![SwagLab APK Recording (1)](https://github.com/user-attachments/assets/cf0b4578-9746-4ba1-960f-122bb2b4602e)
+
+
 ## What This Repo Does
 
 - Automates user flows and features in the SwagLabs APK.
