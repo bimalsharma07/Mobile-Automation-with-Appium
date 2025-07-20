@@ -64,7 +64,7 @@
     });
    it('Order Screen', async () => {
         // 1. Verify confirmation text
-        const confirmationText = await $('//android.widget.TextView[contains(@text, "THANK YOU FOR YOU ORDER")]'); // Corrected the text
+        const confirmationText = await $('//android.widget.TextView[contains(@text, "THANK YOU FOR YOU ORDER")]');
         await confirmationText.waitForExist({ timeout: 15000 });
 
         // 2. Verify Back Home button
