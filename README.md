@@ -65,14 +65,3 @@ Below are the key dependencies required to work with this project:
   npx wdio run wdio.conf.js
   ```
 - Inspect elements with Appium Inspector for test development and debugging.
-
-## References
-
-- [Appium Documentation](https://appium.io/docs/en/about-appium/intro/)
-- [Appium Inspector](https://github.com/appium/appium-inspector)
-- [WebdriverIO](https://webdriver.io/)
-- [SwagLabs Sample Apps](https://www.saucedemo.com/downloads)
-
----
-
-**Note**: For detailed setup and advanced configurations, refer to the documentation and config files within the repository.
