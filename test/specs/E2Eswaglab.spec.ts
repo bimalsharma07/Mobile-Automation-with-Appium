@@ -1,13 +1,15 @@
+ const { userCrentials, checkoutInformation} = require ('../../data/userData.json');
+ 
  describe('SwagLabs Apk End to End test', () => {
     it('should enter username, password and tap login', async () => {
 
         // Enter username
         const usernameField = await $('~test-Username');
-        await usernameField.setValue('standard_user');
+        await usernameField.setValue(userCrentials.username);
 
         // Enter password
         const passwordField = await $('~test-Password'); 
-        await passwordField.setValue('secret_sauce');
+        await passwordField.setValue(userCrentials.password);
 
         // Tap Login button
         const loginButton = await $('~test-LOGIN');
@@ -40,15 +42,15 @@
 
         // Enter username
         const firstNameField = await $('~test-First Name');
-        await firstNameField.setValue('John');
+        await firstNameField.setValue(checkoutInformation.firstName);
         
         // Enter last name
         const lastNameField = await $('~test-Last Name'); 
-        await lastNameField.setValue('Doe');
+        await lastNameField.setValue(checkoutInformation.lastName);
 
         // Enter postal code
         const postalCodeField = await $('~test-Zip/Postal Code');
-        await postalCodeField.setValue('12345');
+        await postalCodeField.setValue(checkoutInformation.postalCode);
         
         // Tap continue button
         const continueButton = await $('~test-CONTINUE');
