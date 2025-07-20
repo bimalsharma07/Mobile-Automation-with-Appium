@@ -1,0 +1,11 @@
+{
+    "userCrentials" : {
+        "username" : "standard_user",
+        "password" : "secret_sauce"
+    },
+    "checkoutInformation" : {
+        "firstName" : "John",
+        "lastName" : "Doe",
+        "postalCode" : "12345"
+    }
+}
