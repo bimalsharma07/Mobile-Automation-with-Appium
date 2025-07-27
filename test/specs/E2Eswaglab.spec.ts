@@ -1,77 +1,76 @@
- const { userCrentials, checkoutInformation} = require ('../../data/userData.json');
- 
- describe('SwagLabs Apk End to End test', () => {
-    it('should enter username, password and tap login', async () => {
+interface UserCredentials {
+  username: string;
+  password: string;
+}
 
-        // Enter username
-        const usernameField = await $('~test-Username');
-        await usernameField.setValue(userCrentials.username);
+interface CheckoutInformation {
+  firstName: string;
+  lastName: string;
+  postalCode: string;
+}
 
-        // Enter password
-        const passwordField = await $('~test-Password'); 
-        await passwordField.setValue(userCrentials.password);
+interface UserData {
+  userCrentials: UserCredentials;
+  checkoutInformation: CheckoutInformation;
+}
 
-        // Tap Login button
-        const loginButton = await $('~test-LOGIN');
-        await loginButton.click();
-    });
-    it('should add products to cart', async () => {
-       
-        // Add first product to cart
-        const firstProduct = await $('(//android.view.ViewGroup[@content-desc="test-ADD TO CART"])[1]'); 
-        await firstProduct.click();
+const { 
+  userCrentials, 
+  checkoutInformation 
+}: UserData = require('../../data/userData.json');
 
-        // Add second product to cart
-        const secondProduct = await $('(//android.view.ViewGroup[@content-desc="test-ADD TO CART"])');
-        await secondProduct.click();
-
-    });
-    it('open cart screen and checkout', async () => {
-
-        // Click on cart icon
-        const cartButton = await $('//android.view.ViewGroup[@content-desc="test-Cart"]/android.view.ViewGroup/android.widget.ImageView');
-        await cartButton.click();
+describe('SwagLabs Apk End to End test', () => {
+  it('should login successfully', async () => {
     
-        // Click on checkout button
-        const checkoutButton = await $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().description("test-CHECKOUT"))`);
-        await checkoutButton.click();
+    const usernameField = await $('~test-Username');
+    const passwordField = await $('~test-Password');
+    const loginButton = await $('~test-LOGIN');
 
-    });
+    await usernameField.setValue(userCrentials.username);
+    await passwordField.setValue(userCrentials.password);
+    await loginButton.click();
+  });
 
-    it('Checkout user information', async () => {
+  it('should add products to cart', async () => {
+    
+    const firstProduct = await $('(//android.view.ViewGroup[@content-desc="test-ADD TO CART"])[1]');
+    const secondProduct = await $('(//android.view.ViewGroup[@content-desc="test-ADD TO CART"])[2]');
 
-        // Enter username
-        const firstNameField = await $('~test-First Name');
-        await firstNameField.setValue(checkoutInformation.firstName);
-        
-        // Enter last name
-        const lastNameField = await $('~test-Last Name'); 
-        await lastNameField.setValue(checkoutInformation.lastName);
+    await firstProduct.click();
+    await secondProduct.click();
+  });
 
-        // Enter postal code
-        const postalCodeField = await $('~test-Zip/Postal Code');
-        await postalCodeField.setValue(checkoutInformation.postalCode);
-        
-        // Tap continue button
-        const continueButton = await $('~test-CONTINUE');
-        await continueButton.click();
-    });
+  it('should complete checkout process', async () => {
+    const cartButton = await $('//android.view.ViewGroup[@content-desc="test-Cart"]/android.view.ViewGroup/android.widget.ImageView');
+    const checkoutButton = await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().description("test-CHECKOUT"))');
+    
+    await cartButton.click();
+    await checkoutButton.click();
+  });
 
-    it('Confirm Overview screen', async () => {
+  it('should fill checkout information', async () => {
+    const firstNameField = await $('~test-First Name');
+    const lastNameField = await $('~test-Last Name');
+    const postalCodeField = await $('~test-Zip/Postal Code');
+    const continueButton = await $('~test-CONTINUE');
 
-        // Click on Finish button
-        const finishButton = await $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().description("test-FINISH"))`);
-        await finishButton.click();
+    await firstNameField.setValue(checkoutInformation.firstName);
+    await lastNameField.setValue(checkoutInformation.lastName);
+    await postalCodeField.setValue(checkoutInformation.postalCode);
+    await continueButton.click();
+  });
 
-    });
-   it('Order Screen', async () => {
-        // 1. Verify confirmation text
-        const confirmationText = await $('//android.widget.TextView[contains(@text, "THANK YOU FOR YOU ORDER")]'); // Corrected the text
-        await confirmationText.waitForExist({ timeout: 15000 });
+  it('should confirm order overview', async () => {
+    const finishButton = await $('android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().description("test-FINISH"))');
+    await finishButton.click();
+  });
 
-        // 2. Verify Back Home button
-        const backHomeButton = await $('//android.view.ViewGroup[@content-desc="test-BACK HOME"]');
-         await backHomeButton.waitForExist({ timeout: 10000 });
-        
-    });
+  it('should show order confirmation', async () => {
+    
+    const confirmationText = await $('//android.widget.TextView[contains(@text, "THANK YOU FOR YOU ORDER")]');
+    const backHomeButton = await $('//android.view.ViewGroup[@content-desc="test-BACK HOME"]');
+    
+    await confirmationText.waitForExist({ timeout: 15000 });
+    await backHomeButton.waitForExist({ timeout: 10000 });
+  });
 });
